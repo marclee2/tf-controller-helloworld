@@ -14,13 +14,26 @@
 //     }
 // }
 
-Jenkinsfile (Declarative Pipeline)
+//Jenkinsfile (Declarative Pipeline)
 pipeline {
-    agent any
+    agent any 
     stages {
-        stage('Build') {
+        stage('Build') { 
             steps {
-                bat 'set'
+                echo 'Starting the build Stage'
+                echo 'Build Stage completed successfully'
+            }
+        }
+        stage('Test') { 
+            steps {
+                echo 'Starting the Test Stage'
+                echo 'Test Stage completed successfully'
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                echo 'Starting the Deploy Stage'
+                echo 'Deploy Stage completed successfully'
             }
         }
     }

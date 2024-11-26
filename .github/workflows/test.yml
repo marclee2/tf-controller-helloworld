@@ -1,0 +1,29 @@
+name: Push Docker image to Docker Hub Curvature2
+
+on:
+  push:
+
+jobs:
+  build-and-publish:
+    runs-on: self-hosted
+    steps:
+    ## checks out our project source code
+    - uses: actions/checkout@v2
+    - name: Get the version
+      id: get_tag_name
+      run: echo ::set-output name=GIT_TAG_NAME::${GITHUB_REF/refs\/tags\//}
+    ## Publishes our image to Docker Hub 😎
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      env:
+       VERSION: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+      with:
+        ## the name of our image
+        name: sasrepo/curvature-ui
+        ## Here we pass in our Docker Username
+        username: ${{ secrets.DOCKER_USERNAME }}
+        ## and our Docker password which 
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+        dockerfile: ./docker/default/Dockerfile
+        buildargs: VERSION
